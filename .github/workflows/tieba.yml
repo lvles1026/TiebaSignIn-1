@@ -3,7 +3,7 @@ name: Daily Tieba Sign-In
 on:
   workflow_dispatch:
   schedule:
-    - cron: '30 22 * * *'  # cron表达式，时区是UTC时间，比我们早8小时,UTC 22:30 = 北京时间次日 06:30
+    - cron: ${{ vars.CRON_TIME }}  # 变量控制几点触发#'30 22 * * *'  # cron表达式，时区是UTC时间，比我们早8小时,UTC 22:30 = 北京时间次日 06:30
 
 jobs:
   signin:
@@ -20,6 +20,14 @@ jobs:
 
       - name: Install dependencies
         run: pip install requests
+
+      - name: Random delay
+        run: |
+          MIN=${{ vars.DELAY_MIN }}
+          MAX=${{ vars.DELAY_MAX }}
+          RANDOM_DELAY=$(( RANDOM % (MAX - MIN + 1) + MIN ))
+          echo "随机延迟 ${RANDOM_DELAY} 分钟后开始执行..."
+          sleep ${RANDOM_DELAY}m
 
       - name: Run sign-in
         env:
