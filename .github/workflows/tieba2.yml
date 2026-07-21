@@ -33,7 +33,7 @@ jobs:
 
       - name: Run sign-in
         env:
-          BDUSS: ${{ secrets.BDUSS }}
+          BDUSS: ${{ secrets.BDUSS2 }}
         run: python run.py
 
   workflow-keepalive:
