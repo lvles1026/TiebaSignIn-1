@@ -27,20 +27,19 @@ jobs:
 
       - name: Random delay
         run: |
-          stdbuf -oL -eL bash -c '
           RANDOM_DELAY=$(( RANDOM % (${{ env.DELAY_MAX }} - ${{ env.DELAY_MIN }} + 1) + ${{ env.DELAY_MIN }} ))
           #将分钟转换为秒，用于循环计算
           TOTAL_SECONDS=$(( RANDOM_DELAY * 60 ))
           
           >&2 echo "========================================"
           >&2 echo "⏱️ 随机延迟: ${RANDOM_DELAY} 分钟"
-          echo "⏳ 开始倒计时..."
-          echo "========================================"
+          >&2 echo "⏳ 开始倒计时..."
+          >&2 echo "========================================"
           
           # 循环倒计时，每300秒输出一次剩余时间
           # 如果延迟时间很短（<1分钟），则直接 sleep
           if [ $TOTAL_SECONDS -le 0 ]; then
-            echo "无需延迟，立即执行。"
+            >&2 echo "无需延迟，立即执行。"
           else
             for (( i=1; i<=TOTAL_SECONDS; i++ )); do
               # 每300秒（5分钟）输出一次日志，避免日志刷屏
@@ -48,13 +47,12 @@ jobs:
                 ELAPSED_MIN=$(( i / 60 ))
                 REMAINING_MIN=$(( (TOTAL_SECONDS - i) / 60 ))
                 REMAINING_SEC=$(( (TOTAL_SECONDS - i) % 60 ))
-                echo "⏳ 已等待 ${ELAPSED_MIN} 分钟 | 剩余约 ${REMAINING_MIN} 分 ${REMAINING_SEC} 秒..."
+                >&2 echo "⏳ 已等待 ${ELAPSED_MIN} 分钟 | 剩余约 ${REMAINING_MIN} 分 ${REMAINING_SEC} 秒..."
               fi
               sleep 1
             done
-            echo "✅ 延迟结束，开始执行签到任务！"
+            >&2 echo "✅ 延迟结束，开始执行签到任务！"
           fi
-          '
 
       - name: Run sign-in
         env:
