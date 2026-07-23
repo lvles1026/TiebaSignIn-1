@@ -26,21 +26,27 @@ jobs:
           DELAY_MIN: 0
           DELAY_MAX: 60
         run: |
-          RANDOM_DELAY=$(( RANDOM % (DELAY_MAX - DELAY_MIN + 1) + DELAY_MIN ))
-          TOTAL=$(( RANDOM_DELAY * 60 ))
+          python3 << 'EOF'
+          import os, random, time, sys
+          min_d = int(os.environ['DELAY_MIN'])
+          max_d = int(os.environ['DELAY_MAX'])
+          RANDOM_DELAY = random.randint(min_d, max_d)
+          total = RANDOM_DELAY * 60
+          summary = os.environ['GITHUB_STEP_SUMMARY']
+          with open(summary, 'a') as f:
+              f.write(f'## ⏱️ 随机延迟: {RANDOM_DELAY} 分钟\n\n')
           
-          echo "::notice::⏱️ 随机延迟: ${RANDOM_DELAY} 分钟"
+          for i in range(1, total + 1):
+              if i % 60 == 0:
+                  elapsed = i // 60
+                  remaining = RANDOM_DELAY - elapsed
+                  with open(summary, 'a') as f:
+                      f.write(f'- #等待 {elapsed} 分钟，剩余 {remaining} 分钟\n')
+              time.sleep(1)
           
-          for (( i=1; i<=TOTAL; i++ )); do
-            if (( i % 60 == 0 )); then
-              ELAPSED=$(( i / 60 ))
-              REMAINING=$(( RANDOM_DELAY - ELAPSED ))
-              echo "::notice::⏳ 已等待 ${ELAPSED} 分钟，剩余 ${REMAINING} 分钟"
-            fi
-            sleep 1
-          done
-          
-          echo "::notice::✅ 延迟结束，开始执行签到任务！"
+          with open(summary, 'a') as f:
+              f.write(f'\n✅ 延迟结束，开始执行签到任务！\n')
+          EOF
 
       - name: Run sign-in
         env:
