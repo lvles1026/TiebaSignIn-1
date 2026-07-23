@@ -53,7 +53,6 @@ jobs:
             done
             echo "✅ 延迟结束，开始执行签到任务！"
           fi
-          '
 
       - name: Run sign-in
         env:
