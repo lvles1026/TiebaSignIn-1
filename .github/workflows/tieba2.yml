@@ -27,9 +27,9 @@ jobs:
           DELAY_MAX: 60
         run: |
           RANDOM_DELAY=$(( RANDOM % (DELAY_MAX - DELAY_MIN + 1) + DELAY_MIN ))
-          echo "::notice::========================================"
-          echo "::notice::⏱️ 随机延迟: ${RANDOM_DELAY} 分钟后开始执行..."
-          echo "::notice::========================================"
+          echo "========================================"
+          echo "⏱️ 随机延迟: ${RANDOM_DELAY} 分钟后开始执行..."
+          echo "========================================"
           if [ $RANDOM_DELAY -gt 0 ]; then
             #将分钟转换为秒，用于循环计算
             TOTAL=$(( RANDOM_DELAY * 60 ))
@@ -39,12 +39,12 @@ jobs:
                 ELAPSED_MIN=$(( i / 60 ))
                 REMAINING_MIN=$(( (TOTAL - i) / 60 ))
                 REMAINING_SEC=$(( (TOTAL - i) % 60 ))
-                echo "::notice::⏳ 已等待 ${ELAPSED_MIN} 分钟，剩余约 ${REMAINING_MIN} 分 ${REMAINING_SEC} 秒，⏱️ 总延迟: ${RANDOM_DELAY} 分钟..."
+                echo "⏳ 已等待 ${ELAPSED_MIN} 分钟，剩余约 ${REMAINING_MIN} 分 ${REMAINING_SEC} 秒，⏱️ 总延迟: ${RANDOM_DELAY} 分钟..."
               fi
               sleep 1
             done
           fi
-          echo "::notice::✅ 延迟结束!"
+          echo "✅ 延迟结束!"
 
       - name: Run sign-in
         env:
