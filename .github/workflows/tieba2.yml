@@ -44,7 +44,7 @@ jobs:
           else
             for (( i=1; i<=TOTAL_SECONDS; i++ )); do
               # 每300秒（5分钟）输出一次日志，避免日志刷屏
-              if (( i % 300 == 0 )); then
+              if (( i % 60 == 0 )); then
                 ELAPSED_MIN=$(( i / 60 ))
                 REMAINING_MIN=$(( (TOTAL_SECONDS - i) / 60 ))
                 REMAINING_SEC=$(( (TOTAL_SECONDS - i) % 60 ))
