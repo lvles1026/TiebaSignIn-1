@@ -25,6 +25,7 @@ jobs:
         env:
           DELAY_MIN: 0
           DELAY_MAX: 60
+          PYTHONUNBUFFERED: 1
         run: |
           python3 -c "
           import os, random, time, sys
