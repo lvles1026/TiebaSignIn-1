@@ -27,6 +27,7 @@ jobs:
 
       - name: Random delay
         run: |
+          stdbuf -oL -eL bash -c '
           RANDOM_DELAY=$(( RANDOM % (${{ env.DELAY_MAX }} - ${{ env.DELAY_MIN }} + 1) + ${{ env.DELAY_MIN }} ))
           #将分钟转换为秒，用于循环计算
           TOTAL_SECONDS=$(( RANDOM_DELAY * 60 ))
@@ -52,6 +53,7 @@ jobs:
             done
             echo "✅ 延迟结束，开始执行签到任务！"
           fi
+          '
 
       - name: Run sign-in
         env:
