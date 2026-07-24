@@ -27,6 +27,7 @@ jobs:
         run: pip install requests
 
       - name: Random delay
+        if: false # 添加这一行，该步骤将被跳过
         run: |
           RANDOM_DELAY=$(( RANDOM % (${{ env.DELAY_MAX }} - ${{ env.DELAY_MIN }} + 1) + ${{ env.DELAY_MIN }} ))
           echo "随机延迟 ${RANDOM_DELAY} 分钟后开始执行..."
