@@ -29,7 +29,7 @@ jobs:
         run: |
           RANDOM_DELAY=$(( RANDOM % (DELAY_MAX - DELAY_MIN + 1) + DELAY_MIN ))
           echo "========================================"
-          echo "⏱️ 随机延迟: ${RANDOM_DELAY} 分钟后开始执行..."
+          echo "::notice::⏱️ 随机延迟: ${RANDOM_DELAY} 分钟后开始执行..."
           echo "========================================"
           echo "delay_time=${RANDOM_DELAY}" >> $GITHUB_OUTPUT
 
