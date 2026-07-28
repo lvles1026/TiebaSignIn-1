@@ -22,6 +22,7 @@ jobs:
         run: pip install requests
 
       - name: Random delay - Calculate
+        if: false # 添加这一行，该步骤将被跳过
         id: calc_step
         env:
           DELAY_MIN: 0
@@ -34,6 +35,7 @@ jobs:
           echo "delay_time=${RANDOM_DELAY}" >> $GITHUB_OUTPUT
 
       - name: Random delay - Execute Sleep
+        if: false # 添加这一行，该步骤将被跳过
         run: |
           sleep ${{ steps.calc_step.outputs.delay_time }}m
           
